@@ -1,15 +1,17 @@
 package com.uncc.ticket.controller;
 
-import com.uncc.ticket.model.UsersEntity;
-import org.springframework.validation.BindingResult;
 import com.uncc.ticket.model.TicketEntity;
+import com.uncc.ticket.model.UsersEntity;
 import com.uncc.ticket.service.TicketService;
 import com.uncc.ticket.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-
-import org.springframework.web.bind.annotation.*;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
 import java.security.Principal;
@@ -52,14 +54,14 @@ public class TicketController {
 
     @RequestMapping(value = "/tickets/edit/{id}", method = RequestMethod.GET)
     public String editTicket(Model model,@PathVariable("id") Long id) {
-        // Code here
-        return "redirect:/"; //Remove this line
+        model.addAttribute("ticket", ticketService.findById((long) id));
+        return "tickets/storeTicket";
     }
 
     @RequestMapping(value = "/tickets/delete/{id}", method = RequestMethod.GET)
     public String deleteTicket(@PathVariable("id") Long id) {
-        // Code here
-        return "redirect:/";
+        ticketService.deleteById((long)id);
+        return "tickets/tickets";
     }
 
 }
